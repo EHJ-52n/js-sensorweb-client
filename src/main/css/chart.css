@@ -76,3 +76,10 @@
 .labelColorMarker {
     font-size: 150%;
 }
+
+/*
+ * Increase font-size of chart labels
+ */
+.flot-tick-label {
+    font-size: 150%;
+} 
