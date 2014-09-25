@@ -1,11 +1,11 @@
 {
-    "selectedLineWidth" : 4,
-    "commonLineWidth" : 1
-	restApiUrls: {
-        'http://localhost:8080/timeseries-proxy/api/v1/': 'Obsea - local'
-    }
-	defaultProvider: {
-            serviceID: 'srv_be15a264e4a022ed98d11bf0d0a730b3',
-            apiUrl: 'http://localhost:8080/timeseries-proxy/api/v1/'
+    "selectedLineWidth": 4,
+    "commonLineWidth": 1,
+	"restApiUrls": {
+        "http://localhost:8080/timeseries-proxy/api/v1/": "Obsea"
+    },
+	"defaultProvider": {
+            "serviceID": "srv_be15a264e4a022ed98d11bf0d0a730b3",
+            "apiUrl": "http://localhost:8080/timeseries-proxy/api/v1/"
     }
 }
