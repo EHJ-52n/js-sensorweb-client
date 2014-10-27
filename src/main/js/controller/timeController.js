@@ -2,48 +2,25 @@
  * Copyright (C) 2014-2014 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 as published
- * by the Free Software Foundation.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * If the program is linked with libraries which are licensed under one of
- * the following licenses, the combination of the program with the linked
- * library is not considered a "derivative work" of the program:
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- *     - Apache License, version 2.0
- *     - Apache Software License, version 1.0
- *     - GNU Lesser General Public License, version 3
- *     - Mozilla Public License, versions 1.0, 1.1 and 2.0
- *     - Common Development and Distribution License (CDDL), version 1.0
- *
- * Therefore the distribution of the program linked with libraries licensed
- * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * License version 2 and the aforementioned licenses.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 var TimeController = {
     currentTimespan: {},
-    timeRangeData: {
-        presets: [
-            {label: _('timeSelection.presets.today'), value: 'today'},
-            {label: _('timeSelection.presets.yesterday'), value: 'yesterday'},
-            {label: _('timeSelection.presets.todayYesterday'), value: 'today_yesterday'},
-            {label: _('timeSelection.presets.thisWeek'), value: 'thisWeek'},
-            {label: _('timeSelection.presets.lastWeek'), value: 'lastWeek'},
-            {label: _('timeSelection.presets.thisMonth'), value: 'thisMonth'},
-            {label: _('timeSelection.presets.lastMonth'), value: 'lastMonth'},
-            {label: _('timeSelection.presets.thisYear'), value: 'thisYear'},
-            {label: _('timeSelection.presets.lastYear'), value: 'lastYear'}
-        ]
-    },
+    timeRangeData: Settings.timeRangeData,
     init: function() {
         // get last save timespan
         this.currentTimespan = Status.get('timespan');
+        this.updateTimeExtent();
         $(document).ready(function() {
             $('[data-action=before]').click($.proxy(function() {
                 TimeController.prevPeriode();
@@ -113,6 +90,22 @@ var TimeController = {
         return moment(this.currentTimespan.till).unix() * 1000;
     },
     updateTimeExtent: function() {
+        var maxExtent = TimeSeriesController.getMaxTimeExtent();
+
+        var insideDataInterval = true;
+        if (maxExtent.from && maxExtent.till) {
+            var earliestStart = moment(maxExtent.from);
+            var latestEnd = moment(maxExtent.till);
+            var beforeEaliestStart = this.currentTimespan.till.isBefore(earliestStart);
+            var afterLatestEnd = this.currentTimespan.from.isAfter(latestEnd);
+            insideDataInterval = !(beforeEaliestStart || afterLatestEnd);
+        }
+
+        if ( !insideDataInterval) {
+            // reset current timespan
+            NotifyController.notify(_('chart.outsideOfDataRange'));
+            this.currentTimespan = Status.get('timespan');
+        }
         EventManager.publish("timeextent:change", {
             from: this.currentTimespan.from,
             till: this.currentTimespan.till
@@ -142,8 +135,15 @@ var TimeController = {
         this.getNearbyPeriode('add');
         this.updateTimeExtent();
     },
-    setPreset: function(type) {
-        this.currentTimespan = Time.isoTimespan(type);
+    setPreset: function(name) {
+        var interval;
+        $.each(this.timeRangeData.presets, function(idx,elem) {
+            if (elem.name === name) {
+                interval = this.interval;
+                return false;
+            }
+        });
+        this.currentTimespan = Time.isoTimespan(interval);
         this.updateTimeExtent();
         Modal.hide();
     },

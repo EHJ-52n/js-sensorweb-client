@@ -9,5 +9,7 @@
         "serviceID": "1",
         "apiUrl": "http://www57.lamp.le.ac.uk/52n-sos-webapp/api/v1/"
     },
-    "additionalParameters": []
+    "additionalParameters": [],
+    "selectedLineWidth" : 4,
+    "commonLineWidth" : 1
 }

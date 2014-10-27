@@ -2,74 +2,50 @@
  * Copyright (C) 2014-2014 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 as published
- * by the Free Software Foundation.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * If the program is linked with libraries which are licensed under one of
- * the following licenses, the combination of the program with the linked
- * library is not considered a "derivative work" of the program:
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- *     - Apache License, version 2.0
- *     - Apache Software License, version 1.0
- *     - GNU Lesser General Public License, version 3
- *     - Mozilla Public License, versions 1.0, 1.1 and 2.0
- *     - Common Development and Distribution License (CDDL), version 1.0
- *
- * Therefore the distribution of the program linked with libraries licensed
- * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * License version 2 and the aforementioned licenses.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 var Status = (function() {
     var status = {
-        key: 'settings',
-        defaultValues: {
-            'provider': Settings.defaultProvider,
-            'clusterStations': true,
-            'generalizeData': false,
-            'timeseries': {},
-            'timespan': Time.isoTimespan('today'),
-            'saveStatus': true,
-            'concentrationMarker': false
+        createDefaultValues: function() {
+            this.defaultValues = {
+                'provider': Settings.defaultProvider,
+                'clusterStations': Settings.clusterStations,
+                'generalizeData': Settings.generalizeData,
+                'timeseries': {},
+                'timespan': Time.isoTimespan(),
+                'saveStatus': Settings.saveStatus,
+                'concentrationMarker': Settings.concentrationMarker
+            };
         },
         init: function() {
+            this.createDefaultValues();
+            this.key = Storage.generateKey('settings');
             this.load();
             if (!this.get('saveStatus')) {
                 this.reset();
             }
         },
-        isSet: function() {
-            if ($.totalStorage(this.key)) {
-                return true;
-            } else {
-                return false;
-            }
-        },
         load: function() {
-            if (this.isSet()) {
-                this.current = $.totalStorage(this.key);
+            var load = Storage.load(this.key);
+            if (load) {
+                this.current = load;
             } else {
                 this.current = this.defaultValues;
                 this.save();
             }
         },
         save: function() {
-            if (Settings.saveStatusPossible) {
-                try {
-                    $.totalStorage(this.key, this.current);
-                } catch (e) {
-                    Settings.saveStatusPossible = false;
-                    // safari mobile in private mode???
-                    // http://davidwalsh.name/quota_exceeded_err
-//					alert("No Status saving possible.");
-                }
-            }
+            Storage.saveObject(this.key, this.current);
         },
         reset: function() {
             this.current = this.defaultValues;
@@ -81,7 +57,7 @@ var Status = (function() {
             this.save();
         },
         get: function(key) {
-            if (this.current[key] == undefined) {
+            if (!this.current[key]) {
                 return this.defaultValues[key];
             }
             return this.current[key];
@@ -116,7 +92,7 @@ var Status = (function() {
             this.save();
         },
         hasTimeseriesWithId: function(id) {
-            return this.current.timeseries[id] != null;
+            return !!this.current.timeseries[id];
         },
         getTimeseriesWithId: function(id) {
             return this.current.timeseries[id];
@@ -128,7 +104,5 @@ var Status = (function() {
             return $.isEmptyObject(this.current.timeseries) ? false : true;
         }
     };
-
-    status.init();
     return status;
 })();

@@ -4,10 +4,12 @@
             <div class="container-fluid">
                 <div class="navbar-header chart">
                     <div class="uol-logo"></div>
-                    <span class="navbar-brand">
+                    <div class="navbar-brand">
                         <span class="glyphicon glyphicon-stats"></span>
-                        <span>{{_i}}main.diagram{{/i}}</span>
-                    </span>
+                        <div class="navbar-header-text hidden-xs pull-right">
+                            <span>{{_i}}main.diagram{{/i}}</span>
+                        </div>
+                    </div>
                     <a type="button"
                        class="btn btn-default navbar-btn button-right"
                        data-target="#map" href="#map">
@@ -24,6 +26,11 @@
                        class="btn btn-default navbar-btn button-right"
                        data-target="#tour">
                         <span class="glyphicon glyphicon-question-sign"></span>
+                    </a>
+                    <a type="button"
+                       class="btn btn-default navbar-btn button-right favoriteButton"
+                       data-target="#favorites" style="display: none;">
+                        <span class="glyphicon glyphicon-star"></span>
                     </a>
                 </div>
             </div>
@@ -43,9 +50,9 @@
                             <div class="btn-group timeSelection">
                                 <a type="button" class="btn btn-default" data-action="before">
                                     <span class="glyphicon glyphicon-chevron-left"></span>
-                                </a> 
-                                <a type="button" class="btn btn-default" data-action="timeextent"></a> 
-                                <a type="button" class="btn btn-default" data-action="after"> 
+                                </a>
+                                <a type="button" class="btn btn-default" data-action="timeextent"></a>
+                                <a type="button" class="btn btn-default" data-action="after">
                                     <span class="glyphicon glyphicon-chevron-right"></span>
                                 </a>
                             </div>
@@ -73,10 +80,12 @@
             <div class="container-fluid">
                 <div class="navbar-header map">
                     <div class="uol-logo"></div>
-                    <span class="navbar-brand">
+                    <div class="navbar-brand">
                         <span class="glyphicon glyphicon-globe"></span>
-                        <span>{{_i}}main.stationSelection{{/i}}</span>
-                    </span>
+                        <div class="navbar-header-text hidden-xs pull-right">
+                            <span>{{_i}}main.stationSelection{{/i}}</span>
+                        </div>
+                    </div>
                     <a type="button"
                        class="btn btn-default navbar-btn button-right"
                        data-target="#chart" href="#chart">
@@ -94,6 +103,11 @@
                        data-target="#tour">
                         <span class="glyphicon glyphicon-question-sign"></span>
                     </a>
+                    <a type="button"
+                       class="btn btn-default navbar-btn button-right favoriteButton"
+                       data-target="#favorites" style="display: none;">
+                        <span class="glyphicon glyphicon-star"></span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -108,19 +122,19 @@
                     <div class="map-buttons">
                         <a class="btn btn-primary" data-action="provider">
                             <span class="glyphicon glyphicon-folder-open"></span>
-                        </a> 
+                        </a>
                         <a class="btn btn-primary" data-action="locate">
                             <span class="glyphicon glyphicon-map-marker"></span>
                         </a>
                         <a class="btn btn-primary" data-action="listSelection" style="display: none">
                             <span class="glyphicon glyphicon-list-alt"></span>
-                        </a>	
+                        </a>
                     </div>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-lg-3 phenomena rightPanel">
                     <div>
                         <h3>{{_i}}main.phenomenon{{/i}}</h3>
-                        <div class="phenomena-entry"></div>						
+                        <div class="phenomena-entry"></div>
                     </div>
                 </div>
             </div>
