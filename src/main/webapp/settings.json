@@ -11,5 +11,6 @@
     },
     "additionalParameters": [],
     "selectedLineWidth" : 4,
-    "commonLineWidth" : 1
+    "commonLineWidth" : 1,
+    "concentrationMarker" : true
 }
