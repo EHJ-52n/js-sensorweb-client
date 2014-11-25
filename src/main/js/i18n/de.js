@@ -31,9 +31,13 @@ i18n.de = {
         importExportHelp: 'Datei für den Im- oder Exportieren wählen',
         noFileSelected: 'Keine Datei ausgewählt'
     },
+    table: {
+        time: "Zeit"
+    },
     chart: {
         noTimeseriesSelected: 'Sie haben keine Zeitreihe ausgewählt oder die gewählten Zeitreihen haben keine Werte in dem derzeitigen Zeitraum.',
-        outsideOfDataRange: 'Außerhalb des Datenbereichs!'
+        outsideOfDataRange: 'Außerhalb des Datenbereichs!',
+        annotation: 'Daten ohne Gewähr!'
     },
     map: {
         userLocation: 'Hier ist ihr Standort',
@@ -197,6 +201,10 @@ i18n.de = {
             text: 'Hier bekommt man die Rohdaten in einer Tabelle präsentiert.'
         },
         step13: {
+            header: 'Favoritenverwaltung',
+            text: 'Die Legendeneinträge/Zeitreihen können als Favoriten abgespeichert werden. Hier werden alle Favoriten gelistet und können verwaltet werden.'
+        },
+        step14: {
             header: 'Fertig',
             text: 'Super!<br> Dieser Client ist ein Produkt von <a href="http://52north.org" target="_blank">52&deg;North GmbH</a>. Auf <a href="https://github.com/52North/js-sensorweb-client" target="_blank">GitHub</a> findest du den aktuellen Entwicklungsstand.'
         }
@@ -210,14 +218,15 @@ i18n.de = {
         group:{
             add: "Der Status wird mit dem Name '{0}' in den Favoriten abgelegt.",
             noTimeseries: "Derzeit sind keine Zeitreihen ausgewählt.",
-            exists: "Dieser Status existiert bereits."
+            exists: "Dieser Status existiert bereits.",
+            notSupported: "Der Datenanbieter eines Eintrag aus '{0}' wird nicht unterstützt und kann deswegen nicht eingeladen werden."
         },
         single: {
             add: "Einer neuer Favorit mit dem Name '{0}' ist abgelegt worden.",
             remove: "Der Favorit '{0}' ist entfernt worden.",
-            exists: "Dieser Favorit existiert bereits."
-        },
-        lastValueAt: 'Letzter Wert bei'
+            exists: "Dieser Favorit existiert bereits.",
+            notSupported: "Der Datenanbieter des Favoriten '{0}' wird nicht unterstützt und kann deswegen nicht eingeladen werden."
+        }
     },
     inform: {
         error: "Ein Fehler ist aufgetreten: ",

@@ -29,7 +29,11 @@ i18n.en_GB = {
     },
     chart: {
         noTimeseriesSelected: 'You have selected no timeseries or the selected timeseries have no values in the given time range.',
-        outsideOfDataRange: 'Outside of data range!'
+        outsideOfDataRange: 'Outside of data range!',
+        annotation: 'Data without warrenty!'
+    },
+    table: {
+        time: "Time"
     },
     map: {
         userLocation: 'Here is your current location',
@@ -192,6 +196,10 @@ i18n.en_GB = {
             text: 'Here you get a table of the raw data values to your selected time series.'
         },
         step13: {
+            header: 'Favourite management',
+            text: 'The legend entries/timeseries could be saved as favourites. In this view all favourites are listed and could be maintained.'
+        },
+        step14: {
             header: 'Finished',
             text: 'Well done!<br> This client is a product of <a href="http://52north.org" target="_blank">52&deg;North GmbH</a>. You can find the source code on <a href="https://github.com/52North/js-sensorweb-client" target="_blank">GitHub</a>.'
         }
@@ -205,14 +213,15 @@ i18n.en_GB = {
         group: {
             add: "The status '{0}' is added to the favourite list.",
             exists: "This status still exists.",
-            noTimeseries: "Currently no timeseries are selected."
+            noTimeseries: "Currently no timeseries are selected.",
+            notSupported: "The provider of an entry of the status '{0}' isn't supported and can't be loaded."
         },
         single: {
             add: "A new favourite '{0}' is added to the list.",
             remove: "The favourite '{0}' is removed.",
-            exists: "This favourite still exists."
-        },
-        lastValueAt: 'Last value at'
+            exists: "This favourite still exists.",
+            notSupported: "The provider of the favourite '{0}' isn't supported and can't be loaded."
+        }
     },
     inform: {
         error: "An error occured: ",

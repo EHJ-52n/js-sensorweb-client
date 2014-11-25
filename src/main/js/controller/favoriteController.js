@@ -28,7 +28,7 @@ var FavoriteController = {
         this.createFavoritesListView();
         this.activateImportExportHandlers();
         EventManager.subscribe('timeseries:add', $.proxy(this.addLegendStar, this));
-        EventManager.subscribe('timeseries:changeStyle', $.proxy(this.addLegendStar, this))
+        EventManager.subscribe('timeseries:changeStyle', $.proxy(this.addLegendStar, this));
         EventManager.subscribe('map:stationLoaded', $.proxy(this.addStationStar, this));
         EventManager.subscribe('settings:opened', $.proxy(function() {
             var permFavButton = $(Template.createHtml('favorite-settings-button'));
@@ -55,7 +55,7 @@ var FavoriteController = {
         Pages.togglePhenomenon(false);
     },
     clearFavoritesView: function() {
-        $('.favoriteslist').empty();
+        $('#favorites-list').empty();
     },
     updateFavoritesView: function() {
         this.clearFavoritesView();
@@ -77,7 +77,7 @@ var FavoriteController = {
             lastValue: lastValue.value || '',
             uom: ts.getUom() || ''
         });
-        $('.favoriteslist').append(elem);
+        $('#favorites-list').append(elem);
         this.addFavoriteClickEvent(ts.getInternalId());
     },
     drawFavoriteGroup: function(favGroup, idx) {
@@ -94,7 +94,7 @@ var FavoriteController = {
                 };
             })
         });
-        $('.favoriteslist').append(elem);
+        $('#favorites-list').append(elem);
         this.addGroupClickEvents(idx);
     },
     showFavoritesView: function() {
@@ -304,23 +304,40 @@ var FavoriteController = {
         if (values) {
             $.each(values.single, $.proxy(function(idx, elem) {
                 var ts = elem.timeseries;
-                var promise = Rest.timeseries(ts.tsId, ts.apiUrl);
-                var that = this;
-                promise.done(function(ts) {
-                    that.addFavorite(ts, elem.label);
-                });
+                if (this.isSupported(ts)) {
+                    var promise = Rest.timeseries(ts.tsId, ts.apiUrl);
+                    var that = this;
+                    promise.done(function (ts) {
+                        that.addFavorite(ts, elem.label);
+                    });
+                } else {
+                    NotifyController.notify(_('favorite.single.notSupported').replace('{0}', elem.label));
+                }
             }, this));
             $.each(values.groups, $.proxy(function(idx, group) {
                 var label = group.label;
-                var deferreds = $.map(group.collection, function(ts) {
-                    var promise = Rest.timeseries(ts.tsId, ts.apiUrl);
-                    return promise;
-                });
+                var deferreds = $.map(group.collection, $.proxy(function(ts) {
+                    if (this.isSupported(ts)) {
+                        var promise = Rest.timeseries(ts.tsId, ts.apiUrl);
+                        return promise;
+                    } else {
+                        NotifyController.notify(_('favorite.group.notSupported').replace('{0}', label));
+                    }
+                }, this));
                 $.when.apply(null, deferreds).done($.proxy(function() {
+                    debugger
                     this.addFavoriteGroup(arguments, label);
                 }, this));
             }, this));
         }
+    },
+    // checks if the provider of the timeseries is configured in the client
+    isSupported: function(ts) {
+        var supported = false;
+        $.each(Settings.restApiUrls, function(idx,elem) {
+            if (ts.apiUrl === idx) supported = true;
+        });
+        return supported;
     },
     serializeFavorites: function() {
         var favorites = {
