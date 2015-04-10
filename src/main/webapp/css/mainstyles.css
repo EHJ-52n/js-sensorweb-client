@@ -112,33 +112,16 @@ body,html,.container,.row-offcanvas,.mainPanel {
 
 
 /* logos */
-.uol-logo {
-    width: 278px;
-    height: 70px;
-    background: url("../images/uol-sprite.png");
+.nexos-logo {
+    width: 316px;
+    height: 62px;
+    background: url("../images/nexos-logo.png");
+    background-repeat: no-repeat;
     float: left;
 }
 
-.nwe-logo {
-    float: right;
-    /*position: fixed;*/
-    bottom: 10px;
-    right: 10px;
-    max-width: 150px;
-    height: inherit;
-    width: 48%;
-}
-
-.joaquin-logo {
-    float: right;
-    position: absolute;
-    bottom: 0px;
-    /*right: 10px;*/
-    width: 48%;
-}
-
 @media screen and (max-width: 767px) {
-    .uol-logo {
+    .nexos-logo {
         background-position: left -68px;
     }
 }

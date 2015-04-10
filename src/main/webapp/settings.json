@@ -1,13 +1,11 @@
 {
     "providerBlackList": [],
     "restApiUrls": {
-        "http://sosrest.irceline.be/api/v1/": "irceline",
-        "http://www57.lamp.le.ac.uk/52n-sos-webapp/api/v1/": "uol",
-        "http://sensors.geonovum.nl/sos/api/v1/": "geonovum"
+        "http://nexos.dev.52north.org/52n-sos-webapp/api/v1/": "upc"
     },
     "defaultProvider": {
         "serviceID": "1",
-        "apiUrl": "http://www57.lamp.le.ac.uk/52n-sos-webapp/api/v1/"
+        "apiUrl": "http://nexos.dev.52north.org/52n-sos-webapp/api/v1/"
     },
     "additionalParameters": [],
     "selectedLineWidth" : 4,
